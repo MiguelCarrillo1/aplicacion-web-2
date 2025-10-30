@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ClienteService"
+    targetNamespace="http://localhost:8000/service.wsdl"
+    xmlns:tns="http://localhost:8000/service.wsdl"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <!-- Tipos de datos -->
+    <types>
+        <xsd:schema targetNamespace="http://localhost:8000/service.wsdl">
+            <xsd:complexType name="Cliente">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:integer"/>
+                    <xsd:element name="nombre" type="xsd:string"/>
+                    <xsd:element name="correo" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+
+    <!-- Mensajes -->
+    <message name="listarClientesRequest"/>
+    <message name="listarClientesResponse">
+        <!-- Devolvemos una lista/array; usamos anyType para permitir arrays asociativos -->
+        <part name="return" type="xsd:anyType"/>
+    </message>
+
+    <message name="obtenerClienteRequest">
+        <part name="id" type="xsd:integer"/>
+    </message>
+    <message name="obtenerClienteResponse">
+        <!-- Puede devolver un Cliente o un objeto de error -->
+        <part name="return" type="xsd:anyType"/>
+    </message>
+
+    <message name="agregarClienteRequest">
+        <part name="nombre" type="xsd:string"/>
+        <part name="correo" type="xsd:string"/>
+    </message>
+    <message name="agregarClienteResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+
+    <message name="actualizarClienteRequest">
+        <part name="id" type="xsd:integer"/>
+        <part name="nombre" type="xsd:string"/>
+        <part name="correo" type="xsd:string"/>
+    </message>
+    <message name="actualizarClienteResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+
+    <message name="eliminarClienteRequest">
+        <part name="id" type="xsd:integer"/>
+    </message>
+    <message name="eliminarClienteResponse">
+        <part name="return" type="xsd:string"/>
+    </message>
+
+    <!-- Port Type -->
+    <portType name="ClienteServicePortType">
+        <operation name="listarClientes">
+            <input message="tns:listarClientesRequest"/>
+            <output message="tns:listarClientesResponse"/>
+        </operation>
+        <operation name="obtenerCliente">
+            <input message="tns:obtenerClienteRequest"/>
+            <output message="tns:obtenerClienteResponse"/>
+        </operation>
+        <operation name="agregarCliente">
+            <input message="tns:agregarClienteRequest"/>
+            <output message="tns:agregarClienteResponse"/>
+        </operation>
+        <operation name="actualizarCliente">
+            <input message="tns:actualizarClienteRequest"/>
+            <output message="tns:actualizarClienteResponse"/>
+        </operation>
+        <operation name="eliminarCliente">
+            <input message="tns:eliminarClienteRequest"/>
+            <output message="tns:eliminarClienteResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Binding -->
+    <binding name="ClienteServiceBinding" type="tns:ClienteServicePortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="listarClientes">
+            <soap:operation soapAction="http://localhost:8000/listarClientes"/>
+            <input><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+            <output><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+        </operation>
+        <operation name="obtenerCliente">
+            <soap:operation soapAction="http://localhost:8000/obtenerCliente"/>
+            <input><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+            <output><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+        </operation>
+        <operation name="agregarCliente">
+            <soap:operation soapAction="http://localhost:8000/agregarCliente"/>
+            <input><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+            <output><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+        </operation>
+        <operation name="actualizarCliente">
+            <soap:operation soapAction="http://localhost:8000/actualizarCliente"/>
+            <input><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+            <output><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+        </operation>
+        <operation name="eliminarCliente">
+            <soap:operation soapAction="http://localhost:8000/eliminarCliente"/>
+            <input><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+            <output><soap:body use="encoded" namespace="http://localhost:8000/service.wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+        </operation>
+    </binding>
+
+    <!-- Service -->
+    <service name="ClienteService">
+        <port name="ClienteServicePort" binding="tns:ClienteServiceBinding">
+            <soap:address location="http://localhost:8000/src/Server.php"/>
+        </port>
+    </service>
+
+</definitions>
